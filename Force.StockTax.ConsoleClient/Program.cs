@@ -9,16 +9,11 @@ namespace Force.StockTax.ConsoleClient
     {
         static void Main(string[] args)
         {
-            string sinacorNote = @"C:\Users\Desenv01\Downloads\NotaNegociacao_507256_20190410.pdf";
+            string sinacorNotePath = @"C:\Users\Desenv01\Downloads\NotaNegociacao_507256_20190410.pdf";
+            MemoryStream sinacorNoteStream = new MemoryStream(File.ReadAllBytes(sinacorNotePath));
 
-            FileStream fileStream = new FileStream(sinacorNote, FileMode.Open);
-
-            SinacorNoteReader snr = new SinacorNoteReader();
-            var ret = snr.GetTransactions(fileStream);
-            //using (StreamReader reader = new StreamReader(fileStream))
-            //{
-            //    string line = reader.ReadLine();
-            //}
+            SinacorNoteReader snr = new SinacorNoteReader(sinacorNoteStream);
+            var ret = snr.GetSinacorNote();
         }
     }
 }

@@ -1,13 +1,14 @@
-﻿using System;
+﻿using Force.StockTax.Bovespa.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
 namespace Force.StockTax.Bovespa.Interfaces
 {
-    public interface IPdfReader
+    public interface ISinacorNoteReader
     {
-        List<string> GetTransactions(Stream source);
+         SinacorNote GetSinacorNote();
 
 
     }
