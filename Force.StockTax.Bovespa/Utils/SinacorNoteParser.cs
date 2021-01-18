@@ -1,4 +1,5 @@
-﻿using Force.StockTax.Bovespa.Enums;
+﻿using Force.StockTax.Bovespa.DTOs;
+using Force.StockTax.Bovespa.Enums;
 using Force.StockTax.Bovespa.Models;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,10 @@ namespace Force.StockTax.Bovespa.Utils
 {
     public class SinacorNoteParser
     {
-        public static List<Negotiation> ParseNegotiations(List<string> negotiations, SinacorNote sn)
+        public static List<NegotiationDto> ParseNegotiations(List<string> negotiations, SinacorNoteDto sn)
         {
 
-            List<Negotiation> ret = new List<Negotiation>();
+            List<NegotiationDto> ret = new List<NegotiationDto>();
 
             foreach (var n in negotiations)
             {
@@ -37,18 +38,20 @@ namespace Force.StockTax.Bovespa.Utils
             return ret;
         }
 
-        private static Negotiation ParseNegotiationLine(string negotiation, NegotiationType nt, SinacorNote sn)
+        private static NegotiationDto ParseNegotiationLine(string negotiation, NegotiationType nt, SinacorNoteDto sn)
         {
+            ;
 
-            var ret = new Negotiation();
+            var ret = new NegotiationDto();
             try
             {
-                var negotiantionStrList = negotiation.Split(' ').ToList();
+                var negotiantionStrList = JoinCompanyName(negotiation).Split(' ').ToList();
                 negotiantionStrList.RemoveAll(n => string.IsNullOrWhiteSpace(n));
 
                 //Removing last ocurrency string Buy(D) Sell (C) that wasnt removed on outside split
                 var lastElement = negotiantionStrList.ElementAt(negotiantionStrList.Count - 1);
-                if (lastElement.Last().Equals('D') || lastElement.Last().Equals('C')) {
+                if (lastElement.Last().Equals('D') || lastElement.Last().Equals('C'))
+                {
                     negotiantionStrList.RemoveAt(negotiantionStrList.Count - 1);
                 }
 
@@ -60,25 +63,45 @@ namespace Force.StockTax.Bovespa.Utils
                 }
 
                 //Removing column Obs. (*)
-                if (negotiantionStrList.Count() == 10) {
+                if (negotiantionStrList.Count() == 10)
+                {
                     negotiantionStrList.RemoveAt(6);
                 }
 
-                 ret = new Negotiation
-                {
-                    SinacorNote = sn,
-                    Stock = new Stock { StockCode = negotiantionStrList.ElementAt(3) },
-                    NegotiationType = nt,
-                    Amount = int.Parse(negotiantionStrList.ElementAt(6)),
-                    UnitaryPrice = decimal.Parse(negotiantionStrList.ElementAt(7)),
-                    TotalPrice = decimal.Parse(negotiantionStrList.ElementAt(8))
-                };
+                ret = new NegotiationDto();
+                ret.SinacorNoteId = sn.Id;
+                ret.Stock = negotiantionStrList.ElementAt(3);
+                ret.NegotiationType = nt;
+                ret.Amount = int.Parse(negotiantionStrList.ElementAt(6));
+                ret.UnitaryPrice = decimal.Parse(negotiantionStrList.ElementAt(7));
+                ret.TotalPrice = decimal.Parse(negotiantionStrList.ElementAt(8));
             }
             catch (Exception ex)
             {
 
-             //TODO: Log Error   
+                //TODO: Log Error   
             }
+            return ret;
+        }
+
+        private static string JoinCompanyName(string negotiationLine)
+        {
+            var ret = "";
+            var companyNameSimplified = false;
+            foreach (var companyName in SinacorCompanyNegotiationName.CompanyNegotiationNames)
+            {
+                if (negotiationLine.Contains(companyName.Key))
+                {
+                    ret = negotiationLine.Replace(companyName.Key, companyName.Value);
+                    companyNameSimplified = true;
+                }
+            }
+
+            if (!companyNameSimplified)
+            {
+                throw new Exception("JoinCompanyName not implemented for the given negotiationLine");
+            }
+
             return ret;
         }
     }

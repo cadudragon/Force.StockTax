@@ -9,17 +9,22 @@ namespace Force.StockTax.Bovespa.Enums
     /// </summary>
     internal static class SinacorNotePositions
     {
-        //internal static RectanglePositions BuyAndSellRectangle =
-        //   new RectanglePositions { AxisX = 1, AxisY = 385, Width = 800, Height = 205 };
-
-        internal static RectanglePositions BuyAndSellRectangle =
+        /// <summary>
+        ///  Rectangle equivalent to buy and sell operations on Sinacor Pdf Note
+        /// </summary>
+        internal static RectanglePositions NegotiationsRectangle =
            new RectanglePositions { AxisX = 1, AxisY = 384, Width = 800, Height = 205 };
+        /// <summary>
+        ///  Rectangle equivalent to broker name
+        /// </summary>
+        internal static RectanglePositions BrokerNameRectangle =
+           new RectanglePositions { AxisX = 1, AxisY = 750, Width = 800, Height = 20 };
 
-        internal static RectanglePositions NoteNumber =
-            new RectanglePositions { AxisX = 1, AxisY = 380, Width = 800, Height = 235 };
-
-        internal static RectanglePositions NegoctiationDate =
-            new RectanglePositions { AxisX = 1, AxisY = 380, Width = 800, Height = 235 };
+        /// <summary>
+        ///  Rectangle equivalent to broker name
+        /// </summary>
+        internal static RectanglePositions NoteIdRectangle =
+           new RectanglePositions { AxisX = 1, AxisY = 760, Width = 800, Height = 20 };
     }
 
     internal class RectanglePositions

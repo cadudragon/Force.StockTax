@@ -1,4 +1,5 @@
-﻿using Force.StockTax.Bovespa.Models;
+﻿using Force.StockTax.Bovespa.DTOs;
+using Force.StockTax.Bovespa.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +9,7 @@ namespace Force.StockTax.Bovespa.Interfaces
 {
     public interface ISinacorNoteReader
     {
-         SinacorNote GetSinacorNote();
+         SinacorNoteDto GetSinacorNote();
 
 
     }

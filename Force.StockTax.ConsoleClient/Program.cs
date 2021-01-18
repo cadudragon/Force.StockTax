@@ -1,7 +1,9 @@
 ﻿using Force.StockTax.Bovespa.Services;
 using iText.Kernel.Pdf;
 using System;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 
 namespace Force.StockTax.ConsoleClient
 {
@@ -9,7 +11,11 @@ namespace Force.StockTax.ConsoleClient
     {
         static void Main(string[] args)
         {
-            string sinacorNotePath = @"C:\Users\Desenv01\Downloads\NotaNegociacao_507256_20190410.pdf";
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("pt-BR", true);
+
+            string sinacorNotePath = @"C:\Users\Desenv01\Downloads\magalu.pdf";
+
             MemoryStream sinacorNoteStream = new MemoryStream(File.ReadAllBytes(sinacorNotePath));
 
             SinacorNoteReader snr = new SinacorNoteReader(sinacorNoteStream);
