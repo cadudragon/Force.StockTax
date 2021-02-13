@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
-namespace Force.StockTax.Bovespa.Utils.Extensions
+namespace Force.StockTax.Sinacor.Utils.Extensions
 {
 
     //https://stackoverflow.com/questions/48597948/text-extraction-from-a-pdf-using-itext7-how-to-improve-its-performance

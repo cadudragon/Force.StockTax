@@ -6,7 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Force.StockTax.Bovespa\Force.StockTax.Bovespa.csproj" />
+    <ProjectReference Include="..\Force.StockTax.Bovespa\StockTax.Sinacor.csproj" />
+    <ProjectReference Include="..\Force.StockTax.Model\StockTax.Model.csproj" />
   </ItemGroup>
 
 </Project>

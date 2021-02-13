@@ -1,9 +1,9 @@
-﻿using Force.StockTax.Bovespa.Enums;
+﻿using Force.StockTax.Model.Enum;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Force.StockTax.Bovespa.DTOs
+namespace Force.StockTax.Model.DTO
 {
     public class NegotiationDto
     {

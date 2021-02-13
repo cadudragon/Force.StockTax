@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Force.StockTax.Model.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Force.StockTax.Bovespa.DTOs
+namespace Force.StockTax.Model.DTO
 {
     public class SinacorNoteDto
     {
@@ -17,11 +18,11 @@ namespace Force.StockTax.Bovespa.DTOs
         public bool OperationsAreValid()
         {
             var totalBuy = Negotiations
-                 .Where(x => x.NegotiationType == Enums.NegotiationType.BUY)
+                 .Where(x => x.NegotiationType == NegotiationType.BUY)
                  .Select(x => x.TotalPrice).Sum();
 
             var totalSell = Negotiations
-                 .Where(x => x.NegotiationType == Enums.NegotiationType.SELL)
+                 .Where(x => x.NegotiationType == NegotiationType.SELL)
                  .Select(x => x.TotalPrice).Sum();
 
             var totalBuyMatch = totalBuy == TotalBuys;

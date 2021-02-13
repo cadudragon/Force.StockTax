@@ -1,9 +1,8 @@
-﻿using Force.StockTax.Bovespa.DTOs;
-using Force.StockTax.Bovespa.Enums;
-using Force.StockTax.Bovespa.Interfaces;
-using Force.StockTax.Bovespa.Models;
-using Force.StockTax.Bovespa.Utils;
-using Force.StockTax.Bovespa.Utils.Extensions;
+﻿using Force.StockTax.Sinacor.Constants;
+using Force.StockTax.Sinacor.Utils;
+using Force.StockTax.Sinacor.Utils.Extensions;
+using Force.StockTax.Model.DTO;
+using Force.StockTax.Model.Interfaces;
 using iText.Kernel.Geom;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
@@ -13,9 +12,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using NotePosition = Force.StockTax.Bovespa.Enums.SinacorNotePositions;
+using NotePosition = Force.StockTax.Sinacor.Constants.SinacorNotePositions;
 
-namespace Force.StockTax.Bovespa.Services
+namespace Force.StockTax.Sinacor.Services
 {
     public class SinacorNoteReader : ISinacorNoteReader
     {
@@ -61,30 +60,61 @@ namespace Force.StockTax.Bovespa.Services
                 throw;
             }
         }
+        //private List<NegotiationDto> GetNegotiations(SinacorNoteDto sn)
+        //{
+        //    var negotiationsRec = RectanglePositions.GetRectangle(NotePosition.NegotiationsRectangle);
+
+        //    try
+        //    {
+        //        var negotiations = new List<string>();
+        //        int n = PdfDocument.GetNumberOfPages();
+        //        for (int i = 1; i <= n; i++)
+        //        {
+        //            PdfPage page = PdfDocument.GetPage(i);
+        //            negotiations.AddRange(ReaderExtensions.ExtractText(page, negotiationsRec).ToList());
+        //        }
+
+        //        //Parsing Sinacor Negotiations
+        //        var ret = SinacorNoteParser.ParseNegotiations(negotiations, sn);
+
+
+        //        return ret;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //}
+
+
         private List<NegotiationDto> GetNegotiations(SinacorNoteDto sn)
         {
-            var negotiationsRec = RectanglePositions.GetRectangle(NotePosition.NegotiationsRectangle);
 
-            try
-            {
-                var negotiations = new List<string>();
-                int n = PdfDocument.GetNumberOfPages();
-                for (int i = 1; i <= n; i++)
-                {
-                    PdfPage page = PdfDocument.GetPage(i);
-                    negotiations.AddRange(ReaderExtensions.ExtractText(page, negotiationsRec).ToList());
-                }
+            return null;
+            //var negotiationsRec = RectanglePositions.GetRectangle(NotePosition.NegotiationsPosition.);
 
-                //Parsing Sinacor Negotiations
-                var ret = SinacorNoteParser.ParseNegotiations(negotiations, sn);
+            //try
+            //{
+            //    var negotiations = new List<string>();
+            //    int n = PdfDocument.GetNumberOfPages();
+            //    for (int i = 1; i <= n; i++)
+            //    {
+            //        PdfPage page = PdfDocument.GetPage(i);
+            //        negotiations.AddRange(ReaderExtensions.ExtractText(page, negotiationsRec).ToList());
+            //    }
 
-                return ret;
-            }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            //    //Parsing Sinacor Negotiations
+            //    var ret = SinacorNoteParser.ParseNegotiations(negotiations, sn);
+
+
+            //    return ret;
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw;
+            //}
         }
+
 
         public SinacorNoteDto GetSinacorNote()
         {
@@ -169,6 +199,11 @@ namespace Force.StockTax.Bovespa.Services
             {
                 PdfDocument.Close();
             }
+        }
+
+        Model.DTO.SinacorNoteDto ISinacorNoteReader.GetSinacorNote()
+        {
+            throw new NotImplementedException();
         }
     }
 }

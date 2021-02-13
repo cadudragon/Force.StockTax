@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Force.StockTax.Bovespa.Enums
+namespace Force.StockTax.Sinacor.Constants
 {
     /// <summary>
     /// Rectangle position on PDF for a given section
@@ -42,8 +42,11 @@ namespace Force.StockTax.Bovespa.Enums
 
         internal static NegotiationsPosition NegotiationsPosition = new NegotiationsPosition
         {
-            BuySellRoll = new RectanglePositions { AxisX = 1, AxisY = 350, Width = 300, Height = 10 };
-    };
+            BuySellRoll = new RectanglePositions { AxisX = 1, AxisY = 350, Width = 300, Height = 10 },
+            StockName = new RectanglePositions { AxisX = 1, AxisY = 350, Width = 300, Height = 10 },
+            StockPrice = new RectanglePositions { AxisX = 1, AxisY = 350, Width = 300, Height = 10 },
+            Amount = new RectanglePositions { AxisX = 1, AxisY = 350, Width = 300, Height = 10 }
+        };
     }
 
 
@@ -52,25 +55,25 @@ namespace Force.StockTax.Bovespa.Enums
         /// <summary>
         ///  Rectangle equivalent to the Buy/Sell Roll
         /// </summary>
-        internal  RectanglePositions BuySellRoll { get; set; }
+        internal RectanglePositions BuySellRoll { get; set; }
 
         /// <summary>
         ///  Rectangle equivalent to the Stock name
         /// </summary>
-        internal  RectanglePositions StockName { get; set; }
+        internal RectanglePositions StockName { get; set; }
 
         /// <summary>
         ///  Rectangle equivalent to the Amount of stocks
         /// </summary>
-        internal  RectanglePositions Amount { get; set; }
+        internal RectanglePositions Amount { get; set; }
 
         /// <summary>
         ///  Rectangle equivalent to the StockPrice
         /// </summary>
-        internal  RectanglePositions StockPrice { get; set; }
+        internal RectanglePositions StockPrice { get; set; }
     }
 
-    protected class RectanglePositions
+    internal class RectanglePositions
     {
         public float AxisX { get; set; }
         public float AxisY { get; set; }

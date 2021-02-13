@@ -1,13 +1,13 @@
-﻿using Force.StockTax.Bovespa.DTOs;
-using Force.StockTax.Bovespa.Enums;
-using Force.StockTax.Bovespa.Models;
+﻿using Force.StockTax.Sinacor.Constants;
+using Force.StockTax.Model.DTO;
+using Force.StockTax.Model.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Force.StockTax.Bovespa.Utils
+namespace Force.StockTax.Sinacor.Utils
 {
     public class SinacorNoteParser
     {

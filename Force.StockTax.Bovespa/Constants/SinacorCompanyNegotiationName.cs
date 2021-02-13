@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Force.StockTax.Bovespa.Enums
+namespace Force.StockTax.Sinacor.Constants
 {
     public class SinacorCompanyNegotiationName
     {

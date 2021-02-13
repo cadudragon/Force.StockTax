@@ -1,6 +1,6 @@
-﻿using Force.StockTax.Bovespa.DTOs;
-using Force.StockTax.Bovespa.Services;
-using Force.StockTax.ConsoleClient.Configuration;
+﻿using Force.StockTax.ConsoleClient.Configuration;
+using Force.StockTax.Model.DTO;
+using Force.StockTax.Sinacor.Services;
 using iText.Kernel.Pdf;
 using System;
 using System.Collections.Generic;

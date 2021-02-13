@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Force.StockTax.Bovespa.Models
+namespace Force.StockTax.Model.Models
 {
     public class Stock
     {

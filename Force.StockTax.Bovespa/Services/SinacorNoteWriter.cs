@@ -1,5 +1,4 @@
-﻿using Force.StockTax.Bovespa.DTOs;
-using Force.StockTax.Bovespa.Models;
+﻿using Force.StockTax.Model.DTO;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Force.StockTax.Bovespa.Services
+namespace Force.StockTax.Sinacor.Services
 {
 
     public class SinacorNoteWriter
