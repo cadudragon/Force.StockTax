@@ -26,45 +26,30 @@ namespace Force.StockTax.Bovespa.Services
             PdfDocument = new PdfDocument(new PdfReader(pdfStream));
         }
 
-        private string GetBrokerName() {
-            RectanglePositions brokerNameRec = NotePosition.BrokerNameRectangle;
-            var addressRect = new Rectangle(brokerNameRec.AxisX, brokerNameRec.AxisY, brokerNameRec.Width, brokerNameRec.Height);
+        private string GetBrokerName()
+        {
+            var addressRect = RectanglePositions.GetRectangle(NotePosition.BrokerNameRectangle);
+            PdfPage page = PdfDocument.GetPage(1);
+            return ReaderExtensions.ExtractText(page, addressRect).FirstOrDefault();
 
-            try
-            {
-                var negotiations = new List<string>();
-                int n = PdfDocument.GetNumberOfPages();
-                for (int i = 1; i <= n; i++)
-                {
-                    PdfPage page = PdfDocument.GetPage(i);
-                   return ReaderExtensions.ExtractText(page, addressRect).FirstOrDefault();
-                }
-
-
-                throw new Exception("BrokerName not found");
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            throw new Exception("BrokerName not found");
         }
 
-        private void SetNoteHeader(SinacorNoteDto sn) {
-            RectanglePositions noteIdRectangle = NotePosition.NoteIdRectangle;
-            var addressRect = new Rectangle(noteIdRectangle.AxisX, noteIdRectangle.AxisY, noteIdRectangle.Width, noteIdRectangle.Height);
+        private void SetNoteHeader(SinacorNoteDto sn)
+        {
+            var noteHeaderRect = RectanglePositions.GetRectangle(NotePosition.NoteIdRectangle);
 
             try
             {
-                var negotiations = new List<string>();
                 int n = PdfDocument.GetNumberOfPages();
                 for (int i = 1; i <= n; i++)
                 {
                     PdfPage page = PdfDocument.GetPage(i);
-                    var header = ReaderExtensions.ExtractText(page, addressRect).FirstOrDefault();
+                    var header = ReaderExtensions.ExtractText(page, noteHeaderRect).FirstOrDefault();
                     var headerItens = header.Split(' ');
                     sn.Id = headerItens[0];
-                    sn.PageNumber = int.Parse(headerItens[1]);
-                    sn.Date = headerItens[2];
+                    //sn.PageNumber = int.Parse(headerItens[1]);
+                    sn.Date = DateTime.Parse(headerItens[2]);
                     return;
                 }
 
@@ -78,8 +63,7 @@ namespace Force.StockTax.Bovespa.Services
         }
         private List<NegotiationDto> GetNegotiations(SinacorNoteDto sn)
         {
-            RectanglePositions NegotiationsRec = NotePosition.NegotiationsRectangle;
-            var addressRect = new Rectangle(NegotiationsRec.AxisX, NegotiationsRec.AxisY, NegotiationsRec.Width, NegotiationsRec.Height);
+            var negotiationsRec = RectanglePositions.GetRectangle(NotePosition.NegotiationsRectangle);
 
             try
             {
@@ -88,15 +72,15 @@ namespace Force.StockTax.Bovespa.Services
                 for (int i = 1; i <= n; i++)
                 {
                     PdfPage page = PdfDocument.GetPage(i);
-                    negotiations.AddRange(ReaderExtensions.ExtractText(page, addressRect).ToList());
+                    negotiations.AddRange(ReaderExtensions.ExtractText(page, negotiationsRec).ToList());
                 }
 
                 //Parsing Sinacor Negotiations
-               var ret = SinacorNoteParser.ParseNegotiations(negotiations, sn);
+                var ret = SinacorNoteParser.ParseNegotiations(negotiations, sn);
 
                 return ret;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -106,18 +90,76 @@ namespace Force.StockTax.Bovespa.Services
         {
             try
             {
-                SinacorNoteDto sinacorNote = new SinacorNoteDto ();
+                SinacorNoteDto sinacorNote = new SinacorNoteDto();
                 sinacorNote.Broker = GetBrokerName();
                 SetNoteHeader(sinacorNote);
                 sinacorNote.Negotiations = GetNegotiations(sinacorNote);
+                sinacorNote.TotalSells = GetTotalSells();
+                sinacorNote.TotalBuys = GetTotalBuys();
+
+                if (!sinacorNote.OperationsAreValid()) {
+                    throw new Exception("Operations are not valid");
+                }
+
                 return sinacorNote;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
-            finally {
+            finally
+            {
                 ClosePdf();
+            }
+        }
+
+        public decimal GetTotalSells()
+        {
+            var financialResume = RectanglePositions.GetRectangle(NotePosition.TotalSells);
+
+            try
+            {
+                var negotiations = new List<string>();
+                int n = PdfDocument.GetNumberOfPages();
+                for (int i = 1; i <= n; i++)
+                {
+                    PdfPage page = PdfDocument.GetPage(i);
+                    var text = ReaderExtensions.ExtractText(page, financialResume).FirstOrDefault();
+                    var sells = text.Split(' ');
+
+                    return decimal.Parse(sells[3]);
+                }
+
+                throw new Exception("Total Sells not found");
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error while parsing sells");
+            }
+        }
+
+        public decimal GetTotalBuys()
+        {
+            var financialResume = RectanglePositions.GetRectangle(NotePosition.TotalBuys);
+
+            try
+            {
+                var negotiations = new List<string>();
+                int n = PdfDocument.GetNumberOfPages();
+                for (int i = 1; i <= n; i++)
+                {
+                    PdfPage page = PdfDocument.GetPage(i);
+                    var text = ReaderExtensions.ExtractText(page, financialResume).FirstOrDefault();
+                    var sells = text.Split(' ');
+
+                    return decimal.Parse(sells[3]);
+                }
+
+                throw new Exception("TotalBuys not found");
+            }
+            catch (Exception)
+            {
+                throw new Exception("Error while parsing buys");
             }
         }
 

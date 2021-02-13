@@ -72,20 +72,24 @@ namespace Force.StockTax.Bovespa.Utils
                 ret.SinacorNoteId = sn.Id;
                 ret.Stock = negotiantionStrList.ElementAt(3);
                 ret.NegotiationType = nt;
-                ret.Amount = int.Parse(negotiantionStrList.ElementAt(6));
-                ret.UnitaryPrice = decimal.Parse(negotiantionStrList.ElementAt(7));
-                ret.TotalPrice = decimal.Parse(negotiantionStrList.ElementAt(8));
+                ret.Amount = int.Parse(negotiantionStrList.ElementAt(4));
+                ret.UnitaryPrice = decimal.Parse(negotiantionStrList.ElementAt(5));
+                ret.TotalPrice = decimal.Parse(negotiantionStrList.ElementAt(6));
             }
             catch (Exception ex)
             {
 
-                //TODO: Log Error   
+                throw;
             }
             return ret;
         }
 
         private static string JoinCompanyName(string negotiationLine)
         {
+            negotiationLine = negotiationLine.Replace("ON NM", "");
+            negotiationLine = negotiationLine.Replace("PN N1", "");
+            negotiationLine = negotiationLine.Replace("ON", "");
+
             var ret = "";
             var companyNameSimplified = false;
             foreach (var companyName in SinacorCompanyNegotiationName.CompanyNegotiationNames)
@@ -99,7 +103,7 @@ namespace Force.StockTax.Bovespa.Utils
 
             if (!companyNameSimplified)
             {
-                throw new Exception("JoinCompanyName not implemented for the given negotiationLine");
+                throw new Exception("JoinCompanyName not implemented for the given negotiationLine" + negotiationLine);
             }
 
             return ret;

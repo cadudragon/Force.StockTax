@@ -8,7 +8,8 @@ namespace Force.StockTax.Bovespa.Enums
     {
         public static Dictionary<string, string> CompanyNegotiationNames = new Dictionary<string, string>
         {
-            { "MAGAZ LUIZA","MGLU" }
+            { "MAGAZ LUIZA","MGLU" },
+            {"AMBEV S/A", "ABEV3" }
         };
     }
 }
